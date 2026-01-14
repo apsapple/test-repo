@@ -2,12 +2,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import HorSlider from "./HorSlider";
 
-const ShopBy = ({ filter, title }) => {
-  const [products, setProducts] = useState([]);
+const ShopBy = ({ filter, title, staticProducts }) => {
+  const [products, setProducts] = useState(staticProducts || []);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!staticProducts);
 
   useEffect(() => {
+   
+    if (staticProducts) {
+      return;
+    }
+
     let isMounted = true;
     const fetchData = async () => {
       try {
@@ -30,7 +35,7 @@ const ShopBy = ({ filter, title }) => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [staticProducts]);
 
   return (
     <>
